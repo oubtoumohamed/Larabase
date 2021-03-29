@@ -10,7 +10,8 @@ class ModuleCreator
 	public $description;
 	public $fields;
 
-	public $migration = "";
+	public $translation = "";
+    public $migration = "";
 	public $module = "";
 	public $controller = "";
 	public $route = "";
@@ -36,7 +37,16 @@ class ModuleCreator
     	if( !$migrationFile || !$moduleFile || !$routeFile || !$controllerFile || !$listview || !$updateview )
     		return false;
 
-    	$mgr_flds__ = '';
+        $translate__ = "<?php \nreturn [\n";
+        $translate__ .= "    'module_name'  => '".ucfirst($this->name)."',\n";
+        $translate__ .= "    'list_'  => 'List of ".ucfirst($this->name)."s',\n";
+        $translate__ .= "    '".$this->name."'  => '".ucfirst($this->name)."',\n";
+        $translate__ .= "    '".$this->name."_create'  => 'Add ".ucfirst($this->name)."',\n";
+        $translate__ .= "    '".$this->name."_edit'  => 'Edit ".ucfirst($this->name)."',\n";
+        $translate__ .= "    '".$this->name."_show'  => 'Show ".ucfirst($this->name)."',\n";
+        $translate__ .= "    'description'  => '".$this->description."',\n\n\n";
+
+        $mgr_flds__ = '';
 
     	$mdl_flds__ = '';
     	$mdl_getters__ = '';
@@ -49,7 +59,9 @@ class ModuleCreator
     	foreach ($this->fields as $field) {
     		$field = (object) $field;
 
-    		$mgr_flds__ .= '            $table->'.$field->type.'(\''.$field->name.'\')'.( isset($field->nullable) ? '->nullable()' : '' )."; \n";
+    		$translate__ .= "    '".$field->name."'  => '".$field->title."',\n";
+
+            $mgr_flds__ .= '            $table->'.$field->type.'(\''.$field->name.'\')'.( isset($field->nullable) ? '->nullable()' : '' )."; \n";
 
 
     		$mdl_flds__ .= '\''. $field->name .'\',';
@@ -69,7 +81,13 @@ class ModuleCreator
 			$view_update_fields__ .= "        </div> \n";
     	}
 
-    	// Create Migration File
+    	// Create Translation File
+        $translate__ .= "];";
+        $this->translation = base_path().'/resources/lang/en/'.$this->name.'.php';
+        File::put( $this->translation, $translate__ );
+
+
+        // Create Migration File
     	$migrationFile= str_replace('__ModuleName__', ucfirst($this->name), $migrationFile);
     	$migrationFile= str_replace('__tableName__', $this->name.'s', $migrationFile);
     	$migrationFile= str_replace('__tableColumns__', $mgr_flds__, $migrationFile);
