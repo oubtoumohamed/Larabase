@@ -30,5 +30,3 @@ Route::get('lang/{lang}', function($lang){
 include 'media.php';
 include 'user.php';
 include 'groupe.php';
-
-include 'product.php';
