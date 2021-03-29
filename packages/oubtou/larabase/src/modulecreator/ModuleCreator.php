@@ -1,6 +1,6 @@
 <?php
 
-namespace Oubtou\ModuleCreator;
+namespace Oubtou\Larabase\ModuleCreator;
 
 use Illuminate\Support\Facades\File;
 
