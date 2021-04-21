@@ -27,6 +27,15 @@
       @endif
 
       @if( isGranted('ADMIN') )
+      <li class="sidebar-item groupe">
+        <a class="sidebar-link" href="{{ route('modulecreator_create') }}">
+          <i class="align-middle" data-feather="folder-plus"></i> 
+          <span class="align-middle">{{ __('modulecreator.module_name') }}</span>
+        </a>
+      </li>
+      @endif
+
+      @if( isGranted('ADMIN') )
       <li class="sidebar-item user">
         <a class="sidebar-link" href="{{ route('user') }}">
           <i class="align-middle" data-feather="users"></i>
