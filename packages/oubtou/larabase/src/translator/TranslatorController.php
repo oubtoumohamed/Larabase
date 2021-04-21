@@ -22,7 +22,7 @@ class TranslatorController extends Controller
     /*
      * Display a listing of the resource.
      */
-    public function scan_path( $path, &$modules){
+    public function scan_path( $path='', &$modules=''){
         foreach ( scandir($path) as $mdl) {
             if( $mdl != '.' && $mdl != '..'  ){
                 $mdl =  str_replace('.php', '', $mdl);
@@ -47,14 +47,14 @@ class TranslatorController extends Controller
         return $data;
     }
 
-    public function create(Request $rqst, $lang, $module)
+    public function create(Request $rqst, $lang='', $module='')
     {
         $data = [];
         $modules = [];
         
         $path = app_path('../resources/lang/');
 
-        if( $lang ){
+        if (isset($lang )){
             $this->scan_path($path.$lang , $modules);
             $modules[] = '-----------------';
         }

@@ -35,6 +35,15 @@
       </li>
       @endif
 
+       @if( isGranted('ADMIN') )
+      <li class="sidebar-item groupe">
+        <a class="sidebar-link" href="{{ route('translator_create') }}">
+          <i class="align-middle" data-feather="globe"></i> 
+          <span class="align-middle">{{ __('translator.translator_name') }}</span>
+        </a>
+      </li>
+      @endif
+
       @if( isGranted('ADMIN') )
       <li class="sidebar-item user">
         <a class="sidebar-link" href="{{ route('user') }}">
